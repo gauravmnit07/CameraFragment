@@ -7,6 +7,7 @@ import android.media.CamcorderProfile;
 import android.media.ExifInterface;
 import android.media.MediaRecorder;
 import android.os.Build;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.Surface;
@@ -62,7 +63,7 @@ public class Camera1Manager extends BaseCameraManager<Integer, SurfaceHolder.Cal
                 try {
                     camera = Camera.open(cameraId);
                     prepareCameraOutputs();
-                    if(futurFlashMode != null) {
+                    if (futurFlashMode != null) {
                         setFlashMode(futurFlashMode);
                         futurFlashMode = null;
                     }
@@ -72,7 +73,7 @@ public class Camera1Manager extends BaseCameraManager<Integer, SurfaceHolder.Cal
                             public void run() {
                                 cameraOpenListener.onCameraOpened(cameraId, previewSize, new SurfaceHolder.Callback() {
                                     @Override
-                                    public void surfaceCreated(SurfaceHolder surfaceHolder) {
+                                    public void surfaceCreated(final SurfaceHolder surfaceHolder) {
                                         if (surfaceHolder.getSurface() == null) {
                                             return;
                                         }
@@ -84,11 +85,17 @@ public class Camera1Manager extends BaseCameraManager<Integer, SurfaceHolder.Cal
                                         } catch (Exception ignore) {
                                         }
 
-                                        startPreview(surfaceHolder);
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                startPreview(surfaceHolder);
+                                            }
+                                        }, 100);
+
                                     }
 
                                     @Override
-                                    public void surfaceChanged(SurfaceHolder surfaceHolder, int format, int width, int height) {
+                                    public void surfaceChanged(final SurfaceHolder surfaceHolder, int format, int width, int height) {
                                         if (surfaceHolder.getSurface() == null) {
                                             return;
                                         }
@@ -99,8 +106,13 @@ public class Camera1Manager extends BaseCameraManager<Integer, SurfaceHolder.Cal
                                             camera.stopPreview();
                                         } catch (Exception ignore) {
                                         }
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                startPreview(surfaceHolder);
+                                            }
+                                        }, 100);
 
-                                        startPreview(surfaceHolder);
                                     }
 
                                     @Override
