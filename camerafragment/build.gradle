@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven' // ADD THIS
 
 android {
     compileSdkVersion project.sdk
@@ -26,7 +27,7 @@ task wrapper(type: Wrapper) {
 ext {
     bintrayRepo = 'maven'
     bintrayName = 'CameraFragment'
-    orgName = 'florent37'
+    orgName = 'shubhapp'
 
     publishedGroupId = 'com.github.florent37'
     libraryName = 'CameraFragment'
@@ -34,19 +35,16 @@ ext {
 
     libraryDescription = 'CameraFragment'
 
-    siteUrl = 'https://github.com/florent37/CameraFragment'
-    gitUrl = 'https://github.com/florent37/CameraFragment.git'
+    siteUrl = 'https://github.com/shubhapp/CameraFragment'
+    gitUrl = 'https://github.com/shubhapp/CameraFragment.git'
 
-    libraryVersion = rootProject.ext.libraryVersion
+    libraryVersion = 1.0
 
-    developerId = 'florent37'
-    developerName = 'Florent Champigny'
-    developerEmail = 'champigny.florent@gmail.com'
+    developerId = 'shubhapp'
+    developerName = 'shubhapp'
+    developerEmail = 'shubham.k.tyagi@gmail.com'
 
     licenseName = 'The Apache Software License, Version 2.0'
     licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
     allLicenses = ["Apache-2.0"]
 }
-
-apply from: rootProject.file('gradle/install-v1.gradle')
-apply from: rootProject.file('gradle/bintray-android-v1.gradle')
