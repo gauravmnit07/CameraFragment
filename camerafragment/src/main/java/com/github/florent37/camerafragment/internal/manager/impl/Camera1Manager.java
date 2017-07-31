@@ -142,10 +142,14 @@ public class Camera1Manager extends BaseCameraManager<Integer, SurfaceHolder.Cal
 
     @Override
     public void closeCamera(final CameraCloseListener<Integer> cameraCloseListener) {
+        if(!isCameraReady){
+            return;
+        }
         backgroundHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (camera != null) {
+                    isCameraReady = false;
                     camera.release();
                     camera = null;
                     if (cameraCloseListener != null) {
