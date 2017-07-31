@@ -81,6 +81,7 @@ public final class Camera2Manager extends BaseCameraManager<String, TextureView.
     private SurfaceTexture texture;
     private Surface workingSurface;
     private ImageReader imageReader;
+    private boolean isCameraReady;
     private CameraDevice.StateCallback stateCallback = new CameraDevice.StateCallback() {
         @Override
         public void onOpened(CameraDevice cameraDevice) {
@@ -768,7 +769,10 @@ public final class Camera2Manager extends BaseCameraManager<String, TextureView.
 
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int width, int height) {
-        if (surfaceTexture != null) startPreview(surfaceTexture);
+        if (surfaceTexture != null) {
+            startPreview(surfaceTexture);
+            isCameraReady = true;
+        }
     }
 
     @Override

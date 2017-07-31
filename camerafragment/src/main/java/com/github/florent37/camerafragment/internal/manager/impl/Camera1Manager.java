@@ -52,6 +52,7 @@ public class Camera1Manager extends BaseCameraManager<Integer, SurfaceHolder.Cal
     private CameraPhotoListener photoListener;
 
     private Integer futurFlashMode;
+    private boolean isCameraReady = false;
 
     @Override
     public void openCamera(final Integer cameraId,
@@ -89,6 +90,7 @@ public class Camera1Manager extends BaseCameraManager<Integer, SurfaceHolder.Cal
                                             @Override
                                             public void run() {
                                                 startPreview(surfaceHolder);
+                                                isCameraReady = true;
                                             }
                                         }, 100);
 
@@ -170,12 +172,16 @@ public class Camera1Manager extends BaseCameraManager<Integer, SurfaceHolder.Cal
 
     @Override
     public void takePhoto(File photoFile, CameraPhotoListener cameraPhotoListener, final CameraFragmentResultListener callback) {
+        if(!isCameraReady){
+            return;
+        }
         this.outputPath = photoFile;
         this.photoListener = cameraPhotoListener;
         backgroundHandler.post(new Runnable() {
             @Override
             public void run() {
                 setCameraPhotoQuality(camera);
+                isCameraReady = false;
                 camera.takePicture(null, null, new Camera.PictureCallback() {
                     @Override
                     public void onPictureTaken(byte[] bytes, Camera camera) {
