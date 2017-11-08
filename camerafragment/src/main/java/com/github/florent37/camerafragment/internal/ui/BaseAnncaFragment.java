@@ -166,8 +166,10 @@ public abstract class BaseAnncaFragment<CameraId> extends Fragment implements Ca
         if (arguments != null) {
             configuration = (Configuration) arguments.getSerializable(ARG_CONFIGURATION);
         }
+
         this.configurationProvider = new ConfigurationProviderImpl();
         this.configurationProvider.setupWithAnnaConfiguration(configuration);
+        this.configurationProvider.setMediaQuality(Configuration.MEDIA_QUALITY_MEDIUM );
 
         this.sensorManager = (SensorManager) getContext().getSystemService(Activity.SENSOR_SERVICE);
 
@@ -223,11 +225,12 @@ public abstract class BaseAnncaFragment<CameraId> extends Fragment implements Ca
             }
         };
 
-        if (CameraHelper.hasCamera2(getContext())) {
-            cameraController = new Camera2Controller(getContext(), cameraView, configurationProvider);
-        } else {
-            cameraController = new Camera1Controller(getContext(), cameraView, configurationProvider);
-        }
+//        if (CameraHelper.hasCamera2(getContext())) {
+//            cameraController = new Camera2Controller(getContext(), cameraView, configurationProvider);
+//        } else {
+//            cameraController = new Camera1Controller(getContext(), cameraView, configurationProvider);
+//        }
+        cameraController = new Camera1Controller(getContext(), cameraView, configurationProvider);
         cameraController.onCreate(savedInstanceState);
 
         //onProcessBundle
